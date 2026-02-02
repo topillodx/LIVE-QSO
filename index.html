@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>LIVEQSOs</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root {
+    --bg: #0b1220;
+    --panel: #020617;
+    --accent: #22c55e;
+    --accent2: #38bdf8;
+    --text: #e5e7eb;
+    --muted: #94a3b8;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: system-ui, Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* ===== HEADER ===== */
+.header {
+    background: #000;
+    max-height: 300px;
+    overflow: hidden;
+}
+
+.header img {
+    width: 100%;
+    object-fit: cover;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* ===== BUTTONS ===== */
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+/* BOTONES MODERNOS PARA TODAS LAS PÁGINAS */
+.buttons a {
+    background: linear-gradient(135deg, #22c55e, #38bdf8);
+    border: none;
+    border-radius: 25px;
+    padding: 14px 22px;
+    text-align: center;
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+    display: inline-block;
+}
+
+.buttons a:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    filter: brightness(1.1);
+}
+
+/* ===== STATS BAR ===== */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat {
+    background: var(--panel);
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+}
+
+.stat h3 {
+    margin: 0;
+    font-size: 32px;
+    color: var(--accent);
+}
+
+.stat span {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* ===== PANELS ===== */
+.panel {
+    background: var(--panel);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.panel h2 {
+    margin-top: 0;
+    color: var(--accent2);
+}
+
+/* ===== TABLE ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+th {
+    color: var(--accent);
+}
+
+/* ===== SEARCH ===== */
+.search {
+    text-align: center;
+}
+
+.search input {
+    padding: 12px;
+    width: 220px;
+    border-radius: 10px;
+    border: none;
+    text-transform: uppercase;
+}
+
+.search button {
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: none;
+    background: var(--accent);
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* ===== FOOTER ===== */
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 25px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+footer img {
+    height: 60px;
+    width: auto;
+}
+
+/* ===== BOTONES FLOTANTES ===== */
+.fab-buttons {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 999;
+}
+
+.fab-buttons a,
+.fab-buttons button {
+    background: linear-gradient(135deg, #22c55e, #38bdf8);
+    color: #000;
+    border: none;
+    padding: 14px 18px;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 0 15px rgba(0,0,0,0.6);
+    transition: 0.3s;
+    text-align: center;
+}
+
+.fab-buttons a:hover,
+.fab-buttons button:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px rgba(56,189,248,0.9);
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <img src="img/banner-evento.png" alt="LIVEQSOs">
+</div>
+
+<div class="container">
+
+<!-- BUTTONS -->
+<div class="buttons">
+    <a href="bases.html">📜 Bases</a>
+    <a href="ranking.html">🏆 Ranking</a>
+    <a href="diplomas.html">🎖️ Diplomas otorgados</a>
+    <a href="estadisticas.html">📊 Estadísticas</a>
+    <a href="cluster.html">📡 Cluster</a>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+    <div class="stat">
+        <h3>12.345</h3>
+        <span>QSOs totales</span>
+    </div>
+    <div class="stat">
+        <h3>2.134</h3>
+        <span>Indicativos únicos</span>
+    </div>
+    <div class="stat">
+        <h3>87</h3>
+        <span>DXCC</span>
+    </div>
+</div>
+
+<!-- LIVE STREAM -->
+<div class="panel">
+    <h2>📡 Live QSOs</h2>
+    <table>
+        <tr>
+            <th>Indicativo</th>
+            <th>Banda</th>
+            <th>Modo</th>
+            <th>Fecha</th>
+            <th>Hora UTC</th>
+        </tr>
+        <tr><td>EA7ZC</td><td>40m</td><td>SSB</td><td>29/01/2026</td><td>15:32</td></tr>
+        <tr><td>EA5XX</td><td>20m</td><td>FT8</td><td>29/01/2026</td><td>15:31</td></tr>
+        <tr><td>EA1YY</td><td>15m</td><td>CW</td><td>29/01/2026</td><td>15:30</td></tr>
+    </table>
+</div>
+
+<!-- SEARCH -->
+<div class="panel search">
+    <h2>🎖️ Diplomas</h2>
+    <p>Introduce tu indicativo para ver tus resultados</p>
+    <input type="text" placeholder="EA7ZC">
+    <button>Consultar</button>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+    LIVEQSOs · Datos en tiempo real · Tecnología TopilloDX
+    <img src="img/topillodx-logo.png" alt="TopilloDX">
+</footer>
+
+
+
+</body>
+</html>
