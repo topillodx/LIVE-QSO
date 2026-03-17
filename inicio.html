@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIVE QSO - Inicio</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#dce6ef;
+  color:#020617;
+}
+
+/* UTC */
+#utc{
+  background:#003087;
+  color:white;
+  text-align:center;
+  font-size:1.2em;
+  padding:8px;
+}
+
+/* Banner */
+header img{
+  width:100%;
+  display:block;
+}
+
+/* User info */
+#userInfo{
+  text-align:center;
+  font-weight:bold;
+  font-size:1.1em;
+  margin:10px 0;
+}
+
+/* MENÚ */
+#userBar{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:25px auto;
+  padding:12px 18px;
+  background:#f1f5f9;
+  border-radius:20px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  width:fit-content;
+}
+
+.user-btn{
+  padding:11px 20px;
+  font-size:1.02em;
+  background:white;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:600;
+  transition:all 0.25s ease;
+}
+
+.user-btn:hover{
+  background:#2563eb;
+  color:white;
+  transform:translateY(-2px);
+}
+
+.user-btn.active{
+  background:#2563eb;
+  color:white;
+}
+
+/* ESTADÍSTICAS */
+#statsBox{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+  margin:20px auto;
+}
+
+.stat-card{
+  background:#facc15;  /* amarillo */
+  padding:15px 25px;
+  border-radius:15px;
+  box-shadow:0 6px 15px rgba(0,0,0,0.15);
+  text-align:center;
+}
+
+
+.stat-number{
+  font-size:1.8em;
+  font-weight:bold;
+  color:#2563eb;
+}
+.stat-label {
+    font-weight: bold;
+    font-size: 1em; /* opcional, ajusta tamaño si quieres */
+}
+
+
+/* Tabla */
+.table-container{
+  width:95%;
+  margin:auto;
+  overflow-x:auto;
+  border-radius:14px;
+  box-shadow:0 6px 20px rgba(0,0,0,.2);
+}
+#qsoTable{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:2px;
+  text-align:center;
+}
+#qsoTable th,#qsoTable td{
+  padding:10px;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* Modos */
+.mode-row{
+  background:#2563eb;
+  color:white;
+  font-size:1em;
+}
+
+/* Bandas */
+.band-col{
+  background:#267326;
+  color:white;
+  font-size:1.2em;
+}
+
+/* Casillas vacías */
+#qsoTable td{
+  background:#e5e7eb;
+  border:1px solid #cbd5e1;
+  font-size:.8em;
+}
+
+/* Ocupadas */
+.cell-filled{ color:#020617 }
+.cell-primary{ background:#ff5c33 !important }
+.cell-secondary{ background:#00ff00 !important }
+
+#qsoTable td:hover{
+  background:#93c5fd;
+  transform:scale(1.05);
+}
+
+/* Modal */
+.modal-bg{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  justify-content:center;
+  align-items:center;
+  z-index:10;
+}
+.modal{
+  background:#66ccff;
+  padding:18px;
+  border-radius:14px;
+  width:280px;
+  font-weight:bold;
+}
+.modal input{
+  width:100%;
+  padding:8px;
+  margin:6px 0;
+  border-radius:6px;
+  border:2px solid #dc2626;
+}
+.modal button{
+  padding:8px 12px;
+  margin:4px;
+  border:none;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.save-btn{background:#66ff66}
+.release-btn{background:#ef4444;color:white}
+.cancel-btn{background:#ffbf00}
+
+/* Casilla bloqueada 30m SSB */
+.cell-locked{
+  background:#dc2626 !important;
+  color:white;
+  cursor:not-allowed;
+  opacity:0.7;
+}
+
+/* Toast */
+#toastMsg{
+  display:none;
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:#ef4444;
+  color:white;
+  padding:16px 24px;
+  border-radius:12px;
+  font-weight:bold;
+  text-align:center;
+  z-index:999;
+  box-shadow:0 6px 20px rgba(0,0,0,0.3);
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div id="utc"></div>
+
+<header>
+  <img src="img/liveqso.png">
+</header>
+
+<div id="userInfo">—</div>
+
+<div id="userBar">
+  <button class="user-btn" style="background:#f97316;color:white;font-weight:bold;" onclick="location.href='live.html'">📡 LIVE QSOs</button>
+  <button class="user-btn" onclick="location.href='inicio.html'">🏠 Inicio</button>
+  <button class="user-btn" onclick="location.href='estadisticas.html'">📊 Estadísticas</button>
+  <button class="user-btn" onclick="location.href='Diplomas.html'">🏠 Diplomas</button>
+  <button class="user-btn" onclick="location.href='ADIF.html'">📁 ADIF</button>
+  <button class="user-btn" onclick="location.href='Ranking.html'">🏆 Ranking</button>
+  <button class="user-btn" onclick="logout()">🚪 Salir</button>
+  <button class="user-btn" id="adminBtn" style="display:none" onclick="location.href='admin.html'">⚙️ Admin</button>
+</div>
+<!-- ESTADÍSTICAS -->
+<div id="statsBox">
+  <div class="stat-card">
+    <div class="stat-number" id="totalQSOs">0</div>
+    <div class="stat-label">QSOs</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number" id="uniqueCalls">0</div>
+    <div class="stat-label">CALL</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number" id="totalDXCC">0</div>
+    <div class="stat-label">DXCC</div>
+  </div>
+</div>
+
+<!-- Tabla -->
+<div class="table-container">
+  <table id="qsoTable">
+    <tbody></tbody>
+  </table> 
+</div>
+
+<!-- Modal -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h3 id="modalTitle"></h3>
+    <input id="modalFreq" placeholder="Frecuencia">
+    <div style="text-align:center">
+      <button class="save-btn" onclick="saveCell()">Guardar</button>
+      <button class="release-btn" onclick="releaseCell()">Liberar</button>
+      <button class="cancel-btn" onclick="closeModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toastMsg"></div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+const firebaseConfig={
+  apiKey:"AIzaSyBy5xlIVPNcAoxMj9XEAPQg61emdI9KhnY",
+  authDomain:"live-qso-local-9d479.firebaseapp.com",
+  databaseURL:"https://live-qso-local-9d479-default-rtdb.firebaseio.com",
+  projectId:"live-qso-local-9d479",
+  storageBucket:"live-qso-local-9d479.firebasestorage.app",
+  messagingSenderId:"575830304961",
+  appId:"1:575830304961:web:68801041ca39a2eeec8c40"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const auth=firebase.auth();
+const db=firebase.database();
+
+const modos=["CW","SSB","FM","RTTY","PSK","FT8","FT4"];
+const bandas=["160 m","80 m","60 m","40 m","30 m","20 m","17 m","15 m","12 m","10 m","6 m","2 m","70 cm"];
+const PRIMARY=["CW","SSB","FM","RTTY","PSK"];
+const SECONDARY=["FT8","FT4"];
+
+let userIndicativo="", grupo="", isAdmin=false, currentCell=null;
+
+/* UTC */
+setInterval(()=>{
+  const n=new Date();
+  utc.innerText=`Hora UTC: ${n.getUTCHours().toString().padStart(2,"0")}:${n.getUTCMinutes().toString().padStart(2,"0")}:${n.getUTCSeconds().toString().padStart(2,"0")} | Fecha: ${n.getUTCDate().toString().padStart(2,"0")}/${(n.getUTCMonth()+1).toString().padStart(2,"0")}/${n.getUTCFullYear()}`;
+},1000);
+
+/* Auth */
+auth.onAuthStateChanged(user=>{
+  if(!user) location.href="index.html";
+
+  db.ref("users/"+user.uid).once("value").then(s=>{
+    const u=s.val();
+    userIndicativo=u.indicativo;
+    grupo=u.group;
+    isAdmin=u.role==="admin";
+    userInfo.innerText=`Operador: ${u.indicativo} | Grupo: ${u.group}`;
+    if(isAdmin) adminBtn.style.display="inline-block";
+    buildTable();
+  });
+});
+
+/* Tabla */
+function buildTable(){
+  const tb=document.querySelector("#qsoTable tbody");
+  tb.innerHTML="";
+  let tr=document.createElement("tr");
+  tr.appendChild(document.createElement("th"));
+  modos.forEach(m=>{
+    let th=document.createElement("th");
+    th.innerText=m;
+    th.className="mode-row";
+    tr.appendChild(th);
+  });
+  tb.appendChild(tr);
+
+  bandas.forEach(b=>{
+    let tr=document.createElement("tr");
+    let th=document.createElement("th");
+    th.innerText=b;
+    th.className="band-col";
+    tr.appendChild(th);
+
+    modos.forEach(m=>{
+      let td=document.createElement("td");
+      td.dataset.banda=b;
+      td.dataset.modo=m;
+      td.onclick=()=>openModal(td,b,m);
+
+      if(b==="30 m" && m==="SSB"){
+        td.style.background="#ff0000";
+        td.style.color="white";
+        td.style.cursor="not-allowed";
+      }
+
+      tr.appendChild(td);
+    });
+
+    tb.appendChild(tr);
+  });
+
+  // Cargar casillas marcadas del nodo TABLA
+  db.ref(`TABLA/${grupo}`).on("value", snap=>{
+    document.querySelectorAll("#qsoTable td").forEach(td=>{
+      td.innerText="";
+      td.className="";
+    });
+
+    snap.forEach(c=>{
+      const d=c.val();
+      const td=document.querySelector(`td[data-banda='${d.banda}'][data-modo='${d.modo}']`);
+      if(td){
+        td.innerText=`${d.indicativo}\n${d.modo}-${d.banda}\n${d.frecuencia||""}`;
+        td.classList.add("cell-filled", SECONDARY.includes(d.modo)?"cell-secondary":"cell-primary");
+      }
+    });
+  });
+
+  // Estadísticas: contar todos los QSOs en Firebase
+  db.ref("QSOs").on("value", snap=>{
+    let total=0;
+    const calls=new Set();
+    const countries=new Set();
+    snap.forEach(c=>{
+      const d=c.val();
+      total++;
+      if(d.indicativo) calls.add(d.indicativo.trim());
+      if(d.pais) countries.add(d.pais.trim());
+    });
+
+    totalQSOs.innerText=total;
+    uniqueCalls.innerText=calls.size;
+    totalDXCC.innerText=countries.size;
+  });
+}
+
+/* Modal y toast */
+function openModal(td,banda,modo){
+  if(banda==="30 m" && modo==="SSB"){
+       showToast("❌ Casilla 30m SSB bloqueada\n¡DONDE VAS LOKO!!!");
+    return;
+  }
+
+  const contenido=td.innerText.trim();
+  const esMia=contenido.startsWith(userIndicativo);
+
+  if(contenido && !esMia && !isAdmin){
+    showToast("❌ Casilla ocupada por otro operador");
+    return;
+  }
+
+  db.ref(`TABLA/${grupo}`).once("value").then(snap=>{
+    let p=0,s=0;
+    snap.forEach(c=>{
+      const d=c.val();
+      if(d.indicativo===userIndicativo){
+        if(PRIMARY.includes(d.modo)) p++;
+        if(SECONDARY.includes(d.modo)) s++;
+      }
+    });
+
+    if(!contenido){
+      if(PRIMARY.includes(modo) && p>=1){
+        showToast("❌ Solo una en CW/SSB/FM/RTTY/PSK");
+        return;
+      }
+      if(SECONDARY.includes(modo) && s>=1){
+        showToast("❌ Solo una en FT8 o FT4");
+        return;
+      }
+    }
+
+    currentCell={td,banda,modo};
+    modalTitle.innerText=`${modo} - ${banda} | ${userIndicativo}`;
+    modalFreq.value=contenido.split("\n")[2] || "";
+    modalBg.style.display="flex";
+  });
+}
+
+function saveCell(){
+  if(!currentCell) return;
+  const {banda,modo}=currentCell;
+  const freq = modalFreq.value||"";
+
+  // Cerrar modal antes
+  closeModal();
+
+  // Guardar solo en TABLA para marcar la casilla
+  db.ref(`TABLA/${grupo}/${banda}-${modo}`).set({
+    indicativo:userIndicativo,
+    banda:banda,
+    modo:modo,
+    frecuencia:freq,
+    timestamp:Date.now()
+  });
+}
+
+function closeModal(){
+  modalBg.style.display="none";
+  modalFreq.value="";
+  currentCell=null;
+}
+
+function releaseCell(){
+  if(!currentCell) return;
+  const {td,banda,modo}=currentCell;
+  if(!isAdmin && !td.innerText.startsWith(userIndicativo)){
+    showToast("❌ No es tu casilla");
+    return;
+  }
+
+  db.ref(`TABLA/${grupo}/${banda}-${modo}`).remove();
+  closeModal();
+}
+
+function showToast(msg){
+  const toast=document.getElementById("toastMsg");
+  toast.innerText=msg;
+  toast.style.display="block";
+  toast.onclick=()=>toast.style.display="none";
+  setTimeout(()=>{toast.style.display="none"},2000);
+}
+
+function logout(){
+  firebase.auth().signOut().then(()=>location.href="index.html");
+}
+</script>
+
+</body>
+</html>

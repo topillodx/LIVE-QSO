@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIVE QSO - Registro</title>
+<style>
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:linear-gradient(135deg,#020617,#0f172a);color:#e5e7eb;display:flex;justify-content:center;align-items:center;height:100vh;}
+.card{width:360px;background:#020617;padding:25px;border-radius:16px;box-shadow:0 15px 40px rgba(0,0,0,.6);}
+h1{text-align:center;color:#22c55e;margin-top:0;}
+input{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #334155;background:#020617;color:white;font-size:1em;}
+button{width:100%;padding:10px;border:none;border-radius:10px;margin-top:10px;font-weight:bold;cursor:pointer;}
+.register{background:#38bdf8;color:#020617;}
+.msg{text-align:center;margin-top:10px;font-size:.9em;color:#f87171;}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Registro Operador</h1>
+  <input id="indicativo" placeholder="Indicativo (EA7XXX)">
+  <input id="email" type="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Contraseña">
+  <button class="register" onclick="register()">Registrarse</button>
+  <div class="msg" id="msg"></div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+const firebaseConfig={
+  apiKey:"AIzaSyBy5xlIVPNcAoxMj9XEAPQg61emdI9KhnY",
+  authDomain:"live-qso-local-9d479.firebaseapp.com",
+  databaseURL:"https://live-qso-local-9d479-default-rtdb.firebaseio.com",
+  projectId:"live-qso-local-9d479",
+  storageBucket:"live-qso-local-9d479.firebasestorage.app",
+  messagingSenderId:"575830304961",
+  appId:"1:575830304961:web:68801041ca39a2eeec8c40"
+};
+firebase.initializeApp(firebaseConfig);
+const auth=firebase.auth();
+const db=firebase.database();
+
+function register(){
+  const ind = indicativo.value.trim().toUpperCase();
+  const emailVal = email.value.trim();
+  const passVal = password.value;
+  msg.innerText="";
+
+  if(!ind || !emailVal || !passVal){
+    msg.innerText="Completa todos los campos";
+    return;
+  }
+
+  // Revisar si el indicativo está en preregistrados
+  db.ref("preregistrados/"+ind).get().then(snap=>{
+    if(!snap.exists()){
+      msg.innerText="Indicativo no autorizado. Contacta al admin.";
+      return;
+    }
+
+    const grupoAsignado = snap.val().group || "SIN_GRUPO";
+    const role = (ind==="EA7ZC")?"admin":"user";
+
+    auth.createUserWithEmailAndPassword(emailVal,passVal)
+    .then(res=>{
+      return db.ref("users/"+res.user.uid).set({
+        indicativo: ind,
+        email: emailVal,
+        role: role,
+        group: grupoAsignado,
+        blocked: false
+      }).then(()=>{
+        // Borrar de preregistrados
+        return db.ref("preregistrados/"+ind).remove();
+      });
+    })
+    .then(()=>{
+      alert("Registro correcto. Ahora inicia sesión.");
+      auth.signOut();
+      location.href="login.html";
+    })
+    .catch(e=> msg.innerText = e.message);
+  });
+}
+</script>
+</body>
+</html>

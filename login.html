@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro LIVE QSO</title>
+<style>
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:linear-gradient(135deg,#020617,#0f172a);display:flex;justify-content:center;align-items:center;height:100vh;color:white;}
+.card{width:360px;background:#020617;padding:25px;border-radius:16px;box-shadow:0 15px 40px rgba(0,0,0,.6);}
+input{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #334155;background:#020617;color:white;}
+button{width:100%;padding:10px;margin-top:10px;border:none;border-radius:10px;font-weight:bold;cursor:pointer;background:#22c55e;color:#020617;}
+.msg{text-align:center;margin-top:10px;color:#f87171;}
+.link{text-align:center;margin-top:12px;color:#38bdf8;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Registro LIVE QSO</h1>
+  <input id="indicativo" placeholder="Indicativo (EA7XXX)">
+  <input id="email" type="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Contraseña">
+  <button onclick="register()">Registrarse</button>
+  <div class="link" onclick="goLogin()">Ya tengo cuenta</div>
+  <div id="msg" class="msg"></div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyBy5xlIVPNcAoxMj9XEAPQg61emdI9KhnY",
+  authDomain: "live-qso-local-9d479.firebaseapp.com",
+  databaseURL: "https://live-qso-local-9d479-default-rtdb.firebaseio.com",
+  projectId: "live-qso-local-9d479",
+  storageBucket: "live-qso-local-9d479.firebasestorage.app",
+  messagingSenderId: "575830304961",
+  appId: "1:575830304961:web:68801041ca39a2eeec8c40"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.database();
+
+function register(){
+  const indicativo = document.getElementById("indicativo").value.trim().toUpperCase();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const msg = document.getElementById("msg");
+  msg.innerText="";
+
+  if(!indicativo || !email || !password){ msg.innerText="Completa todos los campos"; return; }
+
+  // Solo EA7ZC puede registrarse inicialmente (admin)
+  if(indicativo !== "EA7ZC"){ msg.innerText="Por ahora solo se permite registrar EA7ZC"; return; }
+
+  auth.createUserWithEmailAndPassword(email,password)
+    .then(cred=>{
+      return db.ref("users/"+cred.user.uid).set({
+        indicativo: indicativo,
+        email: email,
+        role: "admin",
+        group: "admin",
+        blocked: false
+      });
+    })
+    .then(()=>{
+      auth.signOut(); // obligar a login
+      alert("Registro correcto. Ahora inicia sesión.");
+      window.location.href="login.html";
+    })
+    .catch(err=>{
+      msg.innerText=err.message;
+    });
+}
+
+function goLogin(){ window.location.href="login.html"; }
+
+// Si ya hay sesión activa, ir a inicio
+auth.onAuthStateChanged(u=>{
+  if(u) window.location.href="inicio.html";
+});
+</script>
+</body>
+</html>

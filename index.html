@@ -3,270 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LIVE QSOs</title>
+<title>LIVE QSO – Login / Registro</title>
 <style>
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#dce6ef;
-  color:#020617;
-}
-#utc{
-  background:#003087;
-  color:white;
-  text-align:center;
-  font-size:1.2em;
-  padding:8px;
-}
-header img{
-  width:100%;
-  display:block;
-}
-#userInfo{
-  text-align:center;
-  font-weight:bold;
-  font-size:1.1em;
-  margin:10px 0;
-}
-#userBar{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap;
-  margin:25px auto;
-  padding:12px 18px;
-  background:#f1f5f9;
-  border-radius:20px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.08);
-  width:fit-content;
-}
-.user-btn{
-  padding:11px 20px;
-  font-size:1.02em;
-  background:white;
-  border:none;
-  border-radius:12px;
-  cursor:pointer;
-  font-weight:600;
-  transition:all 0.25s ease;
-}
-.user-btn:hover{
-  background:#2563eb;
-  color:white;
-  transform:translateY(-2px);
-}
-.user-btn.active{
-  background:#2563eb;
-  color:white;
-}
-.live-btn{
-  background:#f97316;
-  color:white;
-}
-.live-btn:hover{
-  background:#ea580c;
-}
-#filterBar{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin:15px auto;
-  flex-wrap:wrap;
-}
-.filter-btn{
-  padding:8px 14px;
-  border-radius:12px;
-  border:none;
-  cursor:pointer;
-  font-weight:bold;
-  background:#93c5fd;
-  color:#020617;
-}
-.filter-btn.active{
-  background:#2563eb;
-  color:white;
-}
-#statsBox{
-  display:flex;
-  justify-content:center;
-  gap:30px;
-  flex-wrap:wrap;
-  margin-bottom:10px;
-}
-.stat-card{
-  background:#facc15;
-  padding:15px 25px;
-  border-radius:15px;
-  box-shadow:0 6px 15px rgba(0,0,0,0.15);
-  text-align:center;
-}
-.stat-number{
-  font-size:1.8em;
-  font-weight:bold;
-  color:#2563eb;
-}
-.stat-label{
-  font-weight:bold;
-}
-
-/* BANDAS ACTIVAS */
-#bandActivityBox{
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-bottom:20px;
-}
-.band-box{
-  padding:10px 18px;
-  border-radius:14px;
-  font-weight:bold;
-  font-size:1em;
-  color:white;
-  box-shadow:0 4px 12px rgba(0,0,0,0.3);
-  transition: all 0.5s ease;
-}
-.band-SSB  { background:#00ff00; color:#000; }
-.band-CW   { background:#1e3a8a; color:#fff; }
-.band-FT8  { background:#8b5cf6; color:#fff; }
-.band-other{ background:#f97316; color:#000; }
-
-/* Contenedor tabla + panel */
-.tablePanelContainer{
-  display:flex;
-  justify-content:center;
-  position:relative;
-  margin:20px auto;
-  max-width:1200px;
-}
-.table-container{
-  overflow-x:auto;
-  border-radius:14px;
-  box-shadow:0 6px 20px rgba(0,0,0,.2);
-}
-#liveTable{
-  border-collapse:collapse;
-  font-size:1.3em;
-}
-#liveTable th{
-  padding:4px 6px;
-  border:1px solid #cbd5e1;
-  background:#2563eb;
-  color:white;
-  font-weight:bold;
-  text-align:center;
-  white-space:nowrap;
-}
-#liveTable td{
-  padding:2px 4px;
-  text-align:center;
-  white-space:nowrap;
-}
-.latest{
-  background:#fef3c7 !important;
-}
-
-/* PANEL DE PAÍSES pegado a la tabla */
-#countryPanel{
-  position:absolute;
-  right:0; 
-  top:0;
-  width:160px;
-  max-height:500px;
-  overflow-y:auto;
-  background:#f1f5f9;
-  border-radius:14px;
-  box-shadow:0 6px 20px rgba(0,0,0,.2);
-  padding:10px;
-}
-.country-box{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  margin-bottom:6px;
-  padding:6px 8px;
-  border-radius:10px;
-  background:#fff;
-  font-weight:bold;
-  font-size:0.95em;
-}
-.country-box img{
-  width:24px;
-  height:16px;
-  object-fit:cover;
-  border:1px solid #ccc;
-}
+body{margin:0;font-family:Segoe UI,sans-serif;background:#5677c2;color:#ff9900;display:flex;justify-content:center;align-items:center;height:100vh;}
+.card{width:360px;background: #ccff66;padding:25px;border-radius:16px;box-shadow:0 15px 40px rgba(0,0,0,.6);}
+h1{text-align:center;color: #e62e00;margin:0 0 15px;}
+input{width:100%;padding:10px;margin:10px 0;border-radius:10px;border:2px solid #334155;background:#020617;color:white;}
+button{width:100%;padding:14px;border:none;border-radius:10px;margin-top:10px;font-weight:bold;cursor:pointer;}
+.login{background:#22c55e;color:#0e2aa4;}
+.register{background:#38bdf8;color:#020617;}
+.msg{text-align:center;margin-top:12px;font-size:.1em;color:#f87171;}
 </style>
 </head>
 <body>
 
-<div id="utc"></div>
-<header>
-  <img src="img/liveqso.png">
-</header>
-<div id="userInfo">—</div>
-<div id="userBar">
-  <button class="user-btn live-btn" onclick="location.href='live.html'">📡 LIVE QSOs</button>
-  <button class="user-btn" onclick="location.href='inicio.html'">🏠 Inicio</button>
-  <button class="user-btn" onclick="location.href='estadisticas.html'">📊 Estadísticas</button>
-  <button class="user-btn" onclick="location.href='Diplomas.html'">🏠 Diplomas</button>
-  <button class="user-btn" onclick="location.href='ADIF.html'">📁 ADIF</button>
-  <button class="user-btn" onclick="location.href='Ranking.html'">🏆 Ranking</button>
-  <button class="user-btn" onclick="logout()">🚪 Salir</button>
-  <button class="user-btn" id="adminBtn" style="display:none" onclick="location.href='admin.html'">⚙️ Admin</button>
-</div>
-<div id="filterBar">
-  <button class="filter-btn active" data-filter="all">Todos</button>
-  <button class="filter-btn" data-filter="group">Mi Grupo</button>
-  <button class="filter-btn" data-filter="user">Mis QSOs</button>
+<div class="card">
+  <h1>LIVE QSO</h1>
+  <input id="indicativo" placeholder="Indicativo (solo admin EA7ZC primero)">
+  <input id="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Contraseña">
+  <button class="login" onclick="login()">Entrar</button>
+  <button class="register" onclick="register()">Registrarse</button>
+  <div id="msg" class="msg"></div>
 </div>
 
-<div id="statsBox">
-  <div class="stat-card">
-    <div class="stat-number" id="totalQSOs">0</div>
-    <div class="stat-label">QSOs</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-number" id="uniqueCalls">0</div>
-    <div class="stat-label">CALL</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-number" id="totalDXCC">0</div>
-    <div class="stat-label">DXCC</div>
-  </div>
-</div>
-
-<!-- BANDAS ACTIVAS -->
-<div id="bandActivityBox"></div>
-
-<!-- Contenedor tabla + panel -->
-<div class="tablePanelContainer">
-  <div class="table-container">
-    <table id="liveTable">
-      <thead>
-        <tr>
-          <th>Fecha</th>
-          <th>Hora UTC</th>
-          <th>Frec</th>
-          <th>Mode</th>
-          <th>Band</th>
-          <th>RST</th>
-          <th>Call</th>
-          <th>Grupo</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-  <div id="countryPanel"></div>
-</div>
-
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <script>
+// Configuración de Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBy5xlIVPNcAoxMj9XEAPQg61emdI9KhnY",
   authDomain: "live-qso-local-9d479.firebaseapp.com",
@@ -276,174 +43,87 @@ const firebaseConfig = {
   messagingSenderId: "575830304961",
   appId: "1:575830304961:web:68801041ca39a2eeec8c40"
 };
+
 firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
 const auth = firebase.auth();
+const db = firebase.database();
 
-let userIndicativo = "";
-let userGroup = "";
+// ===== LOGIN =====
+function login(){
+  msg.innerText="";
+  auth.signInWithEmailAndPassword(email.value,password.value)
+  .then(res=>{
+    location.href="inicio.html";
+  })
+  .catch(e=>msg.innerText=e.message);
+}
 
-// Map countries to ISO codes for flags
-const countryCodes = {
-  "Bulgaria": "bg",
-  "Spain":"es",
-  "United States of America":"us",
-  "Germany":"de",
-  "Netherlands":"nl",
-  "France":"fr",
-  "Lithuania": "lt",
-  "Puerto Rico":"pr",
-  "Montenegro":"me",
-  "Italy":"it",
-  "Portugal":"pt",
-  "England":"gb"
-  // Agrega los que necesites
-};
+// ===== REGISTRO CONTROLADO =====
+function register(){
+  const ind = indicativo.value.trim().toUpperCase();
+  const em = email.value.trim();
+  const pw = password.value.trim();
 
-// UTC
-setInterval(()=>{
-  const n = new Date();
-  document.getElementById("utc").innerText =
-    `Hora UTC: ${n.getUTCHours().toString().padStart(2,"0")}:${n.getUTCMinutes().toString().padStart(2,"0")}:${n.getUTCSeconds().toString().padStart(2,"0")} | Fecha: ${n.getUTCDate().toString().padStart(2,"0")}/${(n.getUTCMonth()+1).toString().padStart(2,"0")}/${n.getUTCFullYear()}`;
-},1000);
+  if(!ind || !em || !pw){
+    msg.innerText="Completa todos los campos";
+    return;
+  }
 
-// Auth
-auth.onAuthStateChanged(user=>{
-  if(!user) location.href="index.html";
-  db.ref("users/"+user.uid).once("value").then(s=>{
-    const u = s.val();
-    userIndicativo = u.indicativo;
-    userGroup = u.group;
-    userInfo.innerText = `Operador: ${u.indicativo} | Grupo: ${u.group}`;
-    if(u.role==="admin") adminBtn.style.display="inline-block";
-    loadQSOs();
-  });
-});
-
-// Estadísticas
-db.ref("QSOs").on("value",snap=>{
-  let total=0;
-  const calls=new Set();
-  const countries=new Set();
-  snap.forEach(qso=>{
-    const d = qso.val();
-    total++;
-    if(d.indicativo) calls.add(d.indicativo.trim());
-    if(d.pais) countries.add(d.pais.trim());
-  });
-  totalQSOs.innerText = total;
-  uniqueCalls.innerText = calls.size;
-  totalDXCC.innerText = countries.size;
-});
-
-// Filtros
-let currentFilter = "all";
-document.querySelectorAll(".filter-btn").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-    currentFilter = btn.dataset.filter;
-    document.querySelector("#liveTable tbody").innerHTML = "";
-    loadQSOs();
-  });
-});
-
-function loadQSOs(){
-  const tbody = document.querySelector("#liveTable tbody");
-  const countryPanel = document.getElementById("countryPanel");
-
-  // QSOs live
-  db.ref("QSOs").orderByChild("timestamp").limitToLast(500).on("child_added", snap=>{
-    const d = snap.val();
-    if(currentFilter==="group" && d.group!==userGroup) return;
-    if(currentFilter==="user" && d.operador!==userIndicativo) return;
-
-    const dateObj = new Date(d.timestamp);
-    const fecha = dateObj.getUTCDate().toString().padStart(2,"0") + "/" +
-                  (dateObj.getUTCMonth()+1).toString().padStart(2,"0") + "/" +
-                  dateObj.getFullYear();
-    const hora = dateObj.getUTCHours().toString().padStart(2,"0") + ":" +
-                 dateObj.getUTCMinutes().toString().padStart(2,"0") + ":" +
-                 dateObj.getUTCSeconds().toString().padStart(2,"0");
-
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${fecha}</td>
-      <td>${hora}</td>
-      <td>${d.frecuencia||"--"}</td>
-      <td>${d.modo||"--"}</td>
-      <td>${d.banda||"--"}</td>
-      <td>${d.rst||"--"}</td>
-      <td>${d.indicativo||"--"}</td>
-      <td>${d.group||"--"}</td>
-    `;
-    tr.classList.add("latest");
-    tbody.prepend(tr);
-  });
-
-  // BANDAS ACTIVAS
-  db.ref("QSOs").orderByChild("timestamp").limitToLast(500).on("value", snap=>{
-    const box = document.getElementById("bandActivityBox");
-    const now = Date.now();
-    const limit5 = 5*60*1000;
-    const limit10 = 10*60*1000;
-    const active = {};
-
-    snap.forEach(q=>{
-      const d = q.val();
-      if(!d.banda || !d.modo || !d.timestamp) return;
-      const age = now - d.timestamp;
-      if(age>limit10) return;
-      const key = d.banda+"m "+d.modo;
-      active[key] = {mode:d.modo, age:age};
-    });
-
-    box.innerHTML = "";
-    Object.keys(active).forEach(k=>{
-      const div = document.createElement("div");
-      const data = active[k];
-      div.className = "band-box";
-
-      if(data.mode==="CW") div.classList.add("band-CW");
-      else if(data.mode==="FT8") div.classList.add("band-FT8");
-      else if(data.mode==="USB" || data.mode==="LSB" || data.mode==="SSB") div.classList.add("band-SSB");
-      else div.classList.add("band-other");
-
-      if(data.age>limit5 && data.age<=limit10){
-        div.style.background="#f97316"; 
-        div.style.color="#000";
+  db.ref("users").once("value").then(snap=>{
+    // Primer registro: admin EA7ZC
+    if(!snap.exists()){
+      if(ind !== "EA7ZC"){
+        msg.innerText="Primero debes registrarte como admin (EA7ZC)";
+        return;
       }
+      auth.createUserWithEmailAndPassword(em,pw)
+      .then(res=>{
+        db.ref("users/"+res.user.uid).set({
+          indicativo: ind,
+          email: em,
+          role: "admin",
+          group: "admin",
+          blocked: false
+        });
+        msg.innerText="Admin registrado correctamente. Ahora inicia sesión";
+      })
+      .catch(e=>msg.innerText=e.message);
+      return;
+    }
 
-      div.innerText = "📡 "+k;
-      box.appendChild(div);
-    });
-  });
+    // Solo usuarios pre-registrados pueden registrarse después
+    if(ind === "EA7ZC"){
+      msg.innerText="El admin ya está registrado";
+      return;
+    }
 
-  // PANEL DE PAÍSES en tiempo real
-  db.ref("QSOs").orderByChild("timestamp").limitToLast(500).on("value", snap=>{
-    const lastCountries = [];
-    snap.forEach(s=>{
-      const d = s.val();
-      if(d.pais) lastCountries.push({pais: d.pais, timestamp: d.timestamp});
-    });
-    lastCountries.sort((a,b)=> b.timestamp - a.timestamp);
-    const top15 = lastCountries.slice(0,15);
-
-    countryPanel.innerHTML = "";
-    top15.forEach(entry=>{
-      const p = entry.pais;
-      const div = document.createElement("div");
-      div.className = "country-box";
-      const code = countryCodes[p] || p.slice(0,2).toLowerCase();
-      div.innerHTML = `<img src="https://flagcdn.com/24x18/${code}.png"> ${p}`;
-      countryPanel.appendChild(div);
+    db.ref("preregistrados/"+ind).once("value").then(psnap=>{
+      if(!psnap.exists()){
+        msg.innerText="Usuario no autorizado. Contacta con admin";
+        return;
+      }
+      const grupo = psnap.val().group;
+      auth.createUserWithEmailAndPassword(em,pw)
+      .then(res=>{
+        db.ref("users/"+res.user.uid).set({
+          indicativo: ind,
+          email: em,
+          role: "user",
+          group: grupo,
+          blocked: false
+        });
+        db.ref("preregistrados/"+ind).remove();
+        msg.innerText="Registro correcto, ahora inicia sesión";
+      })
+      .catch(e=>msg.innerText=e.message);
     });
   });
 }
 
-function logout(){
-  firebase.auth().signOut().then(()=> location.href="index.html");
-}
+// ===== SESIÓN AUTOMÁTICA =====
+auth.onAuthStateChanged(u=>{
+  if(u) location.href="inicio.html";
+});
 </script>
 </body>
 </html>

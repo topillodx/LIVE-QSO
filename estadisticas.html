@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIVE QSO - Estadísticas</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#dce6ef;
+  color:#020617;
+}
+
+#utc{
+  background:#003087;
+  color:white;
+  text-align:center;
+  font-size:1.05em;
+  padding:6px;
+}
+
+header img{
+  width:100%;
+  display:block;
+}
+
+#userInfo{
+  text-align:center;
+  font-weight:bold;
+  font-size:1.05em;
+  margin:8px 0;
+}
+
+#userBar{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:18px auto;
+  padding:10px 16px;
+  background:#f1f5f9;
+  border-radius:18px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  width:fit-content;
+}
+
+.user-btn{
+  padding:9px 16px;
+  font-size:0.95em;
+  background:white;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
+  transition:all 0.25s ease;
+}
+
+.user-btn:hover{
+  background:#2563eb;
+  color:white;
+  transform:translateY(-2px);
+}
+
+.dashboard{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:18px;
+  padding:25px 10px;
+}
+
+.card{
+  background:linear-gradient(145deg,#ffffff,#e6edf5);
+  width:140px;
+  padding:20px;
+  border-radius:16px;
+  text-align:center;
+  box-shadow:0 6px 18px rgba(0,0,0,0.12);
+}
+
+.card-number{
+  font-size:2.4em;
+  font-weight:bold;
+  margin-bottom:6px;
+  color:#2563eb;
+}
+
+.card-label{
+  font-size:1em;
+  font-weight:bold;
+  letter-spacing:1px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="utc"></div>
+
+<header>
+  <img src="img/liveqso.png">
+</header>
+
+<div id="userInfo">—</div>
+
+<div id="userBar">
+<button class="user-btn" style="background:#f97316;color:white;" onclick="location.href='live.html'">📡 LIVE QSOs</button>
+<button class="user-btn" onclick="location.href='inicio.html'">🏠 Inicio</button>
+<button class="user-btn" onclick="location.href='estadisticas.html'">📊 Estadísticas</button>
+<button class="user-btn" onclick="location.href='Diplomas.html'">🏠 Diplomas</button>
+<button class="user-btn" onclick="location.href='ADIF.html'">📁 ADIF</button>
+<button class="user-btn" onclick="location.href='Ranking.html'">🏆 Ranking</button>
+<button class="user-btn" onclick="logout()">🚪 Salir</button>
+<button class="user-btn" id="adminBtn" style="display:none" onclick="location.href='admin.html'">⚙️ Admin</button>
+</div>
+
+<div class="dashboard">
+  <div class="card">
+    <div class="card-number" id="totalQSOs">0</div>
+    <div class="card-label">QSOS</div>
+  </div>
+
+  <div class="card">
+    <div class="card-number" id="uniqueCalls">0</div>
+    <div class="card-label">CALL</div>
+  </div>
+
+  <div class="card">
+    <div class="card-number" id="uniqueDXCC">0</div>
+    <div class="card-label">DXCC</div>
+  </div>
+</div>
+
+<div style="padding:30px 10px;display:flex;justify-content:center;">
+<table style="border-collapse:collapse;min-width:1000px;background:white;
+box-shadow:0 6px 18px rgba(0,0,0,0.12);border-radius:12px;
+overflow:hidden;text-align:center;font-weight:bold;">
+<thead style="background:#2563eb;color:white;">
+<tr>
+<th style="padding:10px;">BANDA / MODO</th>
+<th>SSB</th>
+<th>CW</th>
+<th>DIGITALES</th>
+<th>DV</th>
+<th>TOTAL BANDA</th>
+</tr>
+</thead>
+<tbody id="bodyBandas"></tbody>
+<tfoot style="background:#1e40af;color:#ffd700;">
+<tr>
+<td style="padding:10px;">TOTAL MODOS</td>
+<td id="totSSB">0</td>
+<td id="totCW">0</td>
+<td id="totDIG">0</td>
+<td id="totDV">0</td>
+<td id="totALL">0</td>
+</tr>
+</tfoot>
+</table>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+const firebaseConfig={
+apiKey:"AIzaSyBy5xlIVPNcAoxMj9XEAPQg61emdI9KhnY",
+authDomain:"live-qso-local-9d479.firebaseapp.com",
+databaseURL:"https://live-qso-local-9d479-default-rtdb.firebaseio.com",
+projectId:"live-qso-local-9d479",
+storageBucket:"live-qso-local-9d479.firebasestorage.app",
+messagingSenderId:"575830304961",
+appId:"1:575830304961:web:68801041ca39a2eeec8c40"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth=firebase.auth();
+const db=firebase.database();
+
+/* UTC */
+setInterval(()=>{
+const n=new Date();
+utc.innerText=`Hora UTC: ${n.getUTCHours().toString().padStart(2,"0")}:${n.getUTCMinutes().toString().padStart(2,"0")}:${n.getUTCSeconds().toString().padStart(2,"0")} | Fecha: ${n.getUTCDate().toString().padStart(2,"0")}/${(n.getUTCMonth()+1).toString().padStart(2,"0")}/${n.getUTCFullYear()}`;
+},1000);
+
+/* ===== AUTH + INFO USUARIO ===== */
+auth.onAuthStateChanged(user=>{
+  if(!user){
+    location.href="index.html";
+    return;
+  }
+
+  db.ref("users/"+user.uid).once("value").then(s=>{
+    if(!s.exists()) return;
+    const u=s.val();
+
+    userInfo.innerText =
+      "Operador: " + (u.indicativo || "-") +
+      " | Grupo: " + (u.group || "-");
+
+    if(u.role==="admin"){
+      document.getElementById("adminBtn").style.display="inline-block";
+    }
+  });
+});
+
+/* BANDAS COMPLETAS */
+const bandasLista=[
+"160m","80m","60m","40m","30m","20m",
+"17m","15m","12m","10m","6m","2m","70cm"
+];
+
+function detectarBanda(b,f){
+if(b){
+if(b==="1.8") return "160m";
+if(b==="3.5") return "80m";
+if(b==="5") return "60m";
+if(b==="7") return "40m";
+if(b==="10") return "30m";
+if(b==="14") return "20m";
+if(b==="18") return "17m";
+if(b==="21") return "15m";
+if(b==="24") return "12m";
+if(b==="28") return "10m";
+if(b==="50") return "6m";
+if(b==="144") return "2m";
+if(b==="430") return "70cm";
+}
+
+if(f){
+f=parseInt(f);
+if(f>=1800&&f<2000) return "160m";
+if(f>=3500&&f<4000) return "80m";
+if(f>=5350&&f<5400) return "60m";
+if(f>=7000&&f<7300) return "40m";
+if(f>=10100&&f<10200) return "30m";
+if(f>=14000&&f<14350) return "20m";
+if(f>=18068&&f<18168) return "17m";
+if(f>=21000&&f<21450) return "15m";
+if(f>=24890&&f<24990) return "12m";
+if(f>=28000&&f<29700) return "10m";
+if(f>=50000&&f<52000) return "6m";
+if(f>=144000&&f<146000) return "2m";
+if(f>=430000&&f<440000) return "70cm";
+}
+return null;
+}
+
+function clasificarModo(m){
+if(!m) return null;
+m=m.toUpperCase();
+if(m.includes("USB")||m.includes("LSB")) return "SSB";
+if(m==="CW") return "CW";
+if(m.includes("FT")||m.includes("PSK")||m.includes("RTTY")) return "DIGITALES";
+if(m.includes("DMR")||m.includes("C4FM")||m.includes("DSTAR")) return "DV";
+return null;
+}
+
+db.ref("QSOs").on("value",snap=>{
+
+let total=0;
+const calls=new Set();
+const countries=new Set();
+
+let matriz={};
+bandasLista.forEach(b=>{
+matriz[b]={SSB:0,CW:0,DIGITALES:0,DV:0,TOTAL:0};
+});
+
+snap.forEach(q=>{
+const d=q.val();
+total++;
+
+if(d.indicativo) calls.add(d.indicativo.trim());
+if(d.pais) countries.add(d.pais.trim());
+
+const banda=detectarBanda(d.banda,d.frecuencia);
+const modo=clasificarModo(d.modo);
+
+if(banda && modo){
+matriz[banda][modo]++;
+matriz[banda].TOTAL++;
+}
+});
+
+totalQSOs.innerText=total;
+uniqueCalls.innerText=calls.size;
+uniqueDXCC.innerText=countries.size;
+
+const body=document.getElementById("bodyBandas");
+body.innerHTML="";
+
+let totSSB=0,totCW=0,totDIG=0,totDV=0,totALL=0;
+
+bandasLista.forEach(b=>{
+const f=matriz[b];
+totSSB+=f.SSB;
+totCW+=f.CW;
+totDIG+=f.DIGITALES;
+totDV+=f.DV;
+totALL+=f.TOTAL;
+
+body.innerHTML+=`
+<tr style="border-bottom:1px solid #e2e8f0;">
+<td style="padding:8px;background:#f1f5f9;">${b}</td>
+<td>${f.SSB}</td>
+<td>${f.CW}</td>
+<td>${f.DIGITALES}</td>
+<td>${f.DV}</td>
+<td style="font-weight:bold;color:#2563eb;">${f.TOTAL}</td>
+</tr>`;
+});
+
+document.getElementById("totSSB").innerText=totSSB;
+document.getElementById("totCW").innerText=totCW;
+document.getElementById("totDIG").innerText=totDIG;
+document.getElementById("totDV").innerText=totDV;
+document.getElementById("totALL").innerText=totALL;
+
+});
+
+function logout(){
+firebase.auth().signOut().then(()=>{
+location.href="index.html";
+});
+}
+</script>
+
+</body>
+</html>
