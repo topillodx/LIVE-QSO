@@ -8,11 +8,9 @@
 body{
   margin:0;
   font-family:Arial,sans-serif;
-  background:#f0f4f8;
+  background:#dce6ef;
   color:#020617;
 }
-
-/* UTC */
 #utc{
   background:#003087;
   color:white;
@@ -20,128 +18,255 @@ body{
   font-size:1.2em;
   padding:8px;
 }
-
-/* Banner */
 header img{
   width:100%;
   display:block;
 }
-
-/* Botones */
+#userInfo{
+  text-align:center;
+  font-weight:bold;
+  font-size:1.1em;
+  margin:10px 0;
+}
 #userBar{
   display:flex;
   justify-content:center;
-  gap:10px;
+  align-items:center;
+  gap:12px;
   flex-wrap:wrap;
-  margin:10px 0;
+  margin:25px auto;
+  padding:12px 18px;
+  background:#f1f5f9;
+  border-radius:20px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  width:fit-content;
 }
 .user-btn{
-  padding:8px 14px;
-  background:#22c55e;
+  padding:11px 20px;
+  font-size:1.02em;
+  background:white;
   border:none;
-  border-radius:6px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:600;
+  transition:all 0.25s ease;
+}
+.user-btn:hover{
+  background:#2563eb;
+  color:white;
+  transform:translateY(-2px);
+}
+.user-btn.active{
+  background:#2563eb;
+  color:white;
+}
+.live-btn{
+  background:#f97316;
+  color:white;
+}
+.live-btn:hover{
+  background:#ea580c;
+}
+#filterBar{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin:15px auto;
+  flex-wrap:wrap;
+}
+.filter-btn{
+  padding:8px 14px;
+  border-radius:12px;
+  border:none;
   cursor:pointer;
   font-weight:bold;
+  background:#93c5fd;
+  color:#020617;
 }
-.user-btn:hover{ background:#16a34a }
+.filter-btn.active{
+  background:#2563eb;
+  color:white;
+}
+#statsBox{
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  flex-wrap:wrap;
+  margin-bottom:10px;
+}
+.stat-card{
+  background:#facc15;
+  padding:15px 25px;
+  border-radius:15px;
+  box-shadow:0 6px 15px rgba(0,0,0,0.15);
+  text-align:center;
+}
+.stat-number{
+  font-size:1.8em;
+  font-weight:bold;
+  color:#2563eb;
+}
+.stat-label{
+  font-weight:bold;
+}
 
-/* Tabla */
+/* BANDAS ACTIVAS */
+#bandActivityBox{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:20px;
+}
+.band-box{
+  padding:10px 18px;
+  border-radius:14px;
+  font-weight:bold;
+  font-size:1em;
+  color:white;
+  box-shadow:0 4px 12px rgba(0,0,0,0.3);
+  transition: all 0.5s ease;
+}
+.band-SSB  { background:#00ff00; color:#000; }
+.band-CW   { background:#1e3a8a; color:#fff; }
+.band-FT8  { background:#8b5cf6; color:#fff; }
+.band-other{ background:#f97316; color:#000; }
+
+/* Contenedor tabla + panel */
+.tablePanelContainer{
+  display:flex;
+  justify-content:center;
+  position:relative;
+  margin:20px auto;
+  max-width:1200px;
+}
 .table-container{
-  width:95%;
-  margin:auto;
   overflow-x:auto;
   border-radius:14px;
   box-shadow:0 6px 20px rgba(0,0,0,.2);
-  margin-top:10px;
 }
-
-.table-container{
-  width: fit-content;        /* Ajusta al contenido */
-  margin: 20px auto;         /* Centra en la página */
-  overflow-x:auto;
-  border-radius:14px;
-  box-shadow:0 6px 20px rgba(0,0,0,.2);
-}
-
 #liveTable{
-  border-collapse: collapse;
-  font-size:1.5em;
-  table-layout:auto;         /* Columnas según texto */
+  border-collapse:collapse;
+  font-size:1.3em;
 }
-
-/* Encabezado */
 #liveTable th{
-  padding:4px 6px;           /* Muy compacto */
+  padding:4px 6px;
   border:1px solid #cbd5e1;
   background:#2563eb;
   color:white;
   font-weight:bold;
   text-align:center;
-  white-space:nowrap;        /* No saltos de línea */
+  white-space:nowrap;
 }
-
-/* Filas */
-#liveTable tbody td{
-  padding:2px 4px;           /* Casi pegado al texto */
-  border:none;
+#liveTable td{
+  padding:2px 4px;
   text-align:center;
-  white-space:nowrap;        /* Mantiene todo en línea */
+  white-space:nowrap;
 }
-
-
-/* Resaltado última fila si quieres */
 .latest{
   background:#fef3c7 !important;
 }
 
-/* Anchos ajustados */
-#liveTable th:nth-child(1){ width:80px; }   /* Call */
-#liveTable th:nth-child(2){ width:40px; }   /* Band */
-#liveTable th:nth-child(3){ width:60px; }   /* Frec */
-#liveTable th:nth-child(4){ width:50px; }   /* Mode */
-#liveTable th:nth-child(5){ width:40px; }   /* RST */
-#liveTable th:nth-child(6){ width:90px; }   /* Fecha */
-#liveTable th:nth-child(7){ width:70px; }   /* Hora */
+/* PANEL DE PAÍSES pegado a la tabla */
+#countryPanel{
+  position:absolute;
+  right:0; 
+  top:0;
+  width:160px;
+  max-height:500px;
+  overflow-y:auto;
+  background:#f1f5f9;
+  border-radius:14px;
+  box-shadow:0 6px 20px rgba(0,0,0,.2);
+  padding:10px;
+}
+.country-box{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-bottom:6px;
+  padding:6px 8px;
+  border-radius:10px;
+  background:#fff;
+  font-weight:bold;
+  font-size:0.95em;
+}
+.country-box img{
+  width:24px;
+  height:16px;
+  object-fit:cover;
+  border:1px solid #ccc;
+}
 </style>
 </head>
 <body>
 
 <div id="utc"></div>
-
 <header>
   <img src="img/liveqso.png">
 </header>
-
+<div id="userInfo">—</div>
 <div id="userBar">
+  <button class="user-btn live-btn" onclick="location.href='live.html'">📡 LIVE QSOs</button>
   <button class="user-btn" onclick="location.href='inicio.html'">🏠 Inicio</button>
+  <button class="user-btn" onclick="location.href='estadisticas.html'">📊 Estadísticas</button>
+  <button class="user-btn" onclick="location.href='Diplomas.html'">🏠 Diplomas</button>
+  <button class="user-btn" onclick="location.href='ADIF.html'">📁 ADIF</button>
+  <button class="user-btn" onclick="location.href='Ranking.html'">🏆 Ranking</button>
   <button class="user-btn" onclick="logout()">🚪 Salir</button>
+  <button class="user-btn" id="adminBtn" style="display:none" onclick="location.href='admin.html'">⚙️ Admin</button>
+</div>
+<div id="filterBar">
+  <button class="filter-btn active" data-filter="all">Todos</button>
+  <button class="filter-btn" data-filter="group">Mi Grupo</button>
+  <button class="filter-btn" data-filter="user">Mis QSOs</button>
 </div>
 
-<div class="table-container">
-  <table id="liveTable">
-    <thead>
-  <tr>
-  <th>Fecha</th>
-  <th>Hora UTC</th>
-  <th>Frec</th>
-  <th>Mode</th>
-  <th>Band</th>
-  <th>RST</th>
-  <th>Call</th>
-</tr>
+<div id="statsBox">
+  <div class="stat-card">
+    <div class="stat-number" id="totalQSOs">0</div>
+    <div class="stat-label">QSOs</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number" id="uniqueCalls">0</div>
+    <div class="stat-label">CALL</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number" id="totalDXCC">0</div>
+    <div class="stat-label">DXCC</div>
+  </div>
+</div>
 
-    </thead>
-    <tbody>
-      <!-- QSOs se cargarán aquí -->
-    </tbody>
-  </table>
+<!-- BANDAS ACTIVAS -->
+<div id="bandActivityBox"></div>
+
+<!-- Contenedor tabla + panel -->
+<div class="tablePanelContainer">
+  <div class="table-container">
+    <table id="liveTable">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Hora UTC</th>
+          <th>Frec</th>
+          <th>Mode</th>
+          <th>Band</th>
+          <th>RST</th>
+          <th>Call</th>
+          <th>Grupo</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div id="countryPanel"></div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 <script>
-// Config Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBy5xlIVPNcAoxMj9XEAPQg61emdI9KhnY",
   authDomain: "live-qso-local-9d479.firebaseapp.com",
@@ -153,61 +278,172 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
+const auth = firebase.auth();
 
-// Mostrar hora UTC en tiempo real
+let userIndicativo = "";
+let userGroup = "";
+
+// Map countries to ISO codes for flags
+const countryCodes = {
+  "Bulgaria": "bg",
+  "Spain":"es",
+  "United States of America":"us",
+  "Germany":"de",
+  "Netherlands":"nl",
+  "France":"fr",
+  "Lithuania": "lt",
+  "Puerto Rico":"pr",
+  "Montenegro":"me",
+  "Italy":"it",
+  "Portugal":"pt",
+  "England":"gb"
+  // Agrega los que necesites
+};
+
+// UTC
 setInterval(()=>{
   const n = new Date();
   document.getElementById("utc").innerText =
     `Hora UTC: ${n.getUTCHours().toString().padStart(2,"0")}:${n.getUTCMinutes().toString().padStart(2,"0")}:${n.getUTCSeconds().toString().padStart(2,"0")} | Fecha: ${n.getUTCDate().toString().padStart(2,"0")}/${(n.getUTCMonth()+1).toString().padStart(2,"0")}/${n.getUTCFullYear()}`;
 },1000);
 
-// Cargar QSOs en tiempo real, último primero
+// Auth
+auth.onAuthStateChanged(user=>{
+  if(!user) location.href="index.html";
+  db.ref("users/"+user.uid).once("value").then(s=>{
+    const u = s.val();
+    userIndicativo = u.indicativo;
+    userGroup = u.group;
+    userInfo.innerText = `Operador: ${u.indicativo} | Grupo: ${u.group}`;
+    if(u.role==="admin") adminBtn.style.display="inline-block";
+    loadQSOs();
+  });
+});
+
+// Estadísticas
+db.ref("QSOs").on("value",snap=>{
+  let total=0;
+  const calls=new Set();
+  const countries=new Set();
+  snap.forEach(qso=>{
+    const d = qso.val();
+    total++;
+    if(d.indicativo) calls.add(d.indicativo.trim());
+    if(d.pais) countries.add(d.pais.trim());
+  });
+  totalQSOs.innerText = total;
+  uniqueCalls.innerText = calls.size;
+  totalDXCC.innerText = countries.size;
+});
+
+// Filtros
+let currentFilter = "all";
+document.querySelectorAll(".filter-btn").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    currentFilter = btn.dataset.filter;
+    document.querySelector("#liveTable tbody").innerHTML = "";
+    loadQSOs();
+  });
+});
+
 function loadQSOs(){
   const tbody = document.querySelector("#liveTable tbody");
-  db.ref("QSOs").limitToLast(50).on("value", snap=>{
-    tbody.innerHTML = "";
-    const qsos = [];
-    snap.forEach(s=>{
-      qsos.push(s.val());
-    });
-    // Ordenar por timestamp descendente (último arriba)
-    qsos.sort((a,b)=> b.timestamp - a.timestamp);
-    
-    qsos.forEach(d=>{
-      const call = d.indicativo || "--";
-      const band = d.banda || "--";
-      const freq = d.frecuencia || "--";
-      const mode = d.modo || "--";
-      const rst  = d.rst || "--";
-      const timestamp = d.timestamp || Date.now();
-      const dateObj = new Date(timestamp);
-      
-      const fecha = dateObj.getUTCDate().toString().padStart(2,"0") + "/" + 
-                    (dateObj.getUTCMonth()+1).toString().padStart(2,"0") + "/" + 
-                    dateObj.getUTCFullYear();
-      const hora = dateObj.getUTCHours().toString().padStart(2,"0") + ":" +
-                   dateObj.getUTCMinutes().toString().padStart(2,"0") + ":" +
-                   dateObj.getUTCSeconds().toString().padStart(2,"0");
-      
-      const tr = document.createElement("tr");
-     tr.innerHTML = `
-  <td>${fecha}</td>
-  <td>${hora}</td>
-  <td>${freq}</td>
-  <td>${mode}</td>
-  <td>${band}</td>
-  <td>${rst}</td>
-  <td>${call}</td>
-`;
+  const countryPanel = document.getElementById("countryPanel");
 
-      tr.classList.add("latest");
-      tbody.appendChild(tr);
+  // QSOs live
+  db.ref("QSOs").orderByChild("timestamp").limitToLast(500).on("child_added", snap=>{
+    const d = snap.val();
+    if(currentFilter==="group" && d.group!==userGroup) return;
+    if(currentFilter==="user" && d.operador!==userIndicativo) return;
+
+    const dateObj = new Date(d.timestamp);
+    const fecha = dateObj.getUTCDate().toString().padStart(2,"0") + "/" +
+                  (dateObj.getUTCMonth()+1).toString().padStart(2,"0") + "/" +
+                  dateObj.getFullYear();
+    const hora = dateObj.getUTCHours().toString().padStart(2,"0") + ":" +
+                 dateObj.getUTCMinutes().toString().padStart(2,"0") + ":" +
+                 dateObj.getUTCSeconds().toString().padStart(2,"0");
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${fecha}</td>
+      <td>${hora}</td>
+      <td>${d.frecuencia||"--"}</td>
+      <td>${d.modo||"--"}</td>
+      <td>${d.banda||"--"}</td>
+      <td>${d.rst||"--"}</td>
+      <td>${d.indicativo||"--"}</td>
+      <td>${d.group||"--"}</td>
+    `;
+    tr.classList.add("latest");
+    tbody.prepend(tr);
+  });
+
+  // BANDAS ACTIVAS
+  db.ref("QSOs").orderByChild("timestamp").limitToLast(500).on("value", snap=>{
+    const box = document.getElementById("bandActivityBox");
+    const now = Date.now();
+    const limit5 = 5*60*1000;
+    const limit10 = 10*60*1000;
+    const active = {};
+
+    snap.forEach(q=>{
+      const d = q.val();
+      if(!d.banda || !d.modo || !d.timestamp) return;
+      const age = now - d.timestamp;
+      if(age>limit10) return;
+      const key = d.banda+"m "+d.modo;
+      active[key] = {mode:d.modo, age:age};
+    });
+
+    box.innerHTML = "";
+    Object.keys(active).forEach(k=>{
+      const div = document.createElement("div");
+      const data = active[k];
+      div.className = "band-box";
+
+      if(data.mode==="CW") div.classList.add("band-CW");
+      else if(data.mode==="FT8") div.classList.add("band-FT8");
+      else if(data.mode==="USB" || data.mode==="LSB" || data.mode==="SSB") div.classList.add("band-SSB");
+      else div.classList.add("band-other");
+
+      if(data.age>limit5 && data.age<=limit10){
+        div.style.background="#f97316"; 
+        div.style.color="#000";
+      }
+
+      div.innerText = "📡 "+k;
+      box.appendChild(div);
+    });
+  });
+
+  // PANEL DE PAÍSES en tiempo real
+  db.ref("QSOs").orderByChild("timestamp").limitToLast(500).on("value", snap=>{
+    const lastCountries = [];
+    snap.forEach(s=>{
+      const d = s.val();
+      if(d.pais) lastCountries.push({pais: d.pais, timestamp: d.timestamp});
+    });
+    lastCountries.sort((a,b)=> b.timestamp - a.timestamp);
+    const top15 = lastCountries.slice(0,15);
+
+    countryPanel.innerHTML = "";
+    top15.forEach(entry=>{
+      const p = entry.pais;
+      const div = document.createElement("div");
+      div.className = "country-box";
+      const code = countryCodes[p] || p.slice(0,2).toLowerCase();
+      div.innerHTML = `<img src="https://flagcdn.com/24x18/${code}.png"> ${p}`;
+      countryPanel.appendChild(div);
     });
   });
 }
 
-loadQSOs();
+function logout(){
+  firebase.auth().signOut().then(()=> location.href="index.html");
+}
 </script>
-
 </body>
 </html>
